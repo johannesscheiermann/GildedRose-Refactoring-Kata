@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Include="Domain.Types.fs" />
+    <Compile Include="Domain.Implementation.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

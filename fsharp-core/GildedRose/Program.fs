@@ -2,6 +2,7 @@
 
 open System.Collections.Generic
 open GildedRose.DomainTypes
+open GildedRose.DomainImplementation
 
 type Item = { Name: string; SellIn: int; Quality: int }
 
@@ -13,13 +14,15 @@ type GildedRose(items:IList<TempMixedItemType>) =
     let Items = items
 
     member this.UpdateQuality() =
-        let update (item:TempMixedItemType) : TempMixedItemType =
+        let updateSellIn (item:TempMixedItemType) : TempMixedItemType =
             match item with
             | Domain domain ->
-                match domain with
-                | GildedRose.DomainTypes.Item.Normal n ->
-                    TempMixedItemType.Domain domain
-                | _ -> TempMixedItemType.Domain domain
+                TempMixedItemType.Domain (decrementSellIn domain)
+            | Legacy legacy ->
+                TempMixedItemType.Legacy legacy
+        let updateQuality (item:TempMixedItemType) : TempMixedItemType =
+            match item with
+            | Domain domain -> TempMixedItemType.Domain (updateQuality domain)
             | Legacy item ->
                 let mutable mutableReturnVal = item
                 if mutableReturnVal.Name <> "Aged Brie" && mutableReturnVal.Name <> "Backstage passes to a TAFKAL80ETC concert" then
@@ -51,7 +54,7 @@ type GildedRose(items:IList<TempMixedItemType>) =
                             mutableReturnVal <- { mutableReturnVal with Quality   = (mutableReturnVal.Quality + 1) }
                 TempMixedItemType.Legacy mutableReturnVal
         for i = 0 to Items.Count - 1 do
-            Items.[i] <- update Items.[i]
+            Items.[i] <- (Items.[i] |> updateSellIn |> updateQuality)
 
 
 module Program =
@@ -59,7 +62,7 @@ module Program =
     let main argv =
         printfn "OMGHAI!"
         let Items = new List<TempMixedItemType>()
-        Items.Add(Legacy {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20})
+        Items.Add(Domain (GildedRose.DomainTypes.Item.Normal {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = Quality.createFrom(20)}))
         Items.Add(Legacy {Name = "Aged Brie"; SellIn = 2; Quality = 0})
         Items.Add(Legacy {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7})
         Items.Add(Legacy {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80})
