@@ -8,35 +8,38 @@ type GildedRose(items:IList<Item>) =
     let Items = items
 
     member this.UpdateQuality() =
-        for i = 0 to Items.Count - 1 do
-            if Items.[i].Name <> "Aged Brie" && Items.[i].Name <> "Backstage passes to a TAFKAL80ETC concert" then
-                if Items.[i].Quality > 0 then
-                    if Items.[i].Name <> "Sulfuras, Hand of Ragnaros" then
-                        Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality - 1) } 
+        let update item =
+            let mutable mutableReturnVal = item
+            if mutableReturnVal.Name <> "Aged Brie" && mutableReturnVal.Name <> "Backstage passes to a TAFKAL80ETC concert" then
+                if mutableReturnVal.Quality > 0 then
+                    if mutableReturnVal.Name <> "Sulfuras, Hand of Ragnaros" then
+                        mutableReturnVal <- { mutableReturnVal with Quality = (mutableReturnVal.Quality - 1) } 
             else
-               if Items.[i].Quality < 50 then
-                    Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality + 1) } 
-                    if Items.[i].Name = "Backstage passes to a TAFKAL80ETC concert" then
-                        if Items.[i].SellIn < 11 then
-                            if Items.[i].Quality < 50 then
-                                Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality + 1) } 
-                        if Items.[i].SellIn < 6 then
-                            if Items.[i].Quality < 50 then
-                                Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality + 1) } 
-            if Items.[i].Name <> "Sulfuras, Hand of Ragnaros" then                 
-                Items.[i] <- { Items.[i] with SellIn  = (Items.[i].SellIn - 1) } 
-            if Items.[i].SellIn < 0 then
-                if Items.[i].Name <> "Aged Brie" then
-                    if Items.[i].Name <> "Backstage passes to a TAFKAL80ETC concert" then
-                        if Items.[i].Quality > 0 then
-                            if Items.[i].Name <> "Sulfuras, Hand of Ragnaros" then
-                                Items.[i] <- { Items.[i] with Quality   = (Items.[i].Quality  - 1) } 
+               if mutableReturnVal.Quality < 50 then
+                    mutableReturnVal <- { mutableReturnVal with Quality = (mutableReturnVal.Quality + 1) } 
+                    if mutableReturnVal.Name = "Backstage passes to a TAFKAL80ETC concert" then
+                        if mutableReturnVal.SellIn < 11 then
+                            if mutableReturnVal.Quality < 50 then
+                                mutableReturnVal <- { mutableReturnVal with Quality = (mutableReturnVal.Quality + 1) } 
+                        if mutableReturnVal.SellIn < 6 then
+                            if mutableReturnVal.Quality < 50 then
+                                mutableReturnVal <- { mutableReturnVal with Quality = (mutableReturnVal.Quality + 1) } 
+            if mutableReturnVal.Name <> "Sulfuras, Hand of Ragnaros" then                 
+                mutableReturnVal <- { mutableReturnVal with SellIn  = (mutableReturnVal.SellIn - 1) } 
+            if mutableReturnVal.SellIn < 0 then
+                if mutableReturnVal.Name <> "Aged Brie" then
+                    if mutableReturnVal.Name <> "Backstage passes to a TAFKAL80ETC concert" then
+                        if mutableReturnVal.Quality > 0 then
+                            if mutableReturnVal.Name <> "Sulfuras, Hand of Ragnaros" then
+                                mutableReturnVal <- { mutableReturnVal with Quality   = (mutableReturnVal.Quality  - 1) } 
                     else
-                        Items.[i] <- { Items.[i] with Quality   = (Items.[i].Quality  - Items.[i].Quality) } 
+                        mutableReturnVal <- { mutableReturnVal with Quality   = (mutableReturnVal.Quality  - mutableReturnVal.Quality) } 
                 else
-                    if Items.[i].Quality < 50 then
-                        Items.[i] <- { Items.[i] with Quality   = (Items.[i].Quality + 1) }  
-        ()
+                    if mutableReturnVal.Quality < 50 then
+                        mutableReturnVal <- { mutableReturnVal with Quality   = (mutableReturnVal.Quality + 1) }
+            mutableReturnVal
+        for i = 0 to Items.Count - 1 do
+            Items.[i] <- update Items.[i]
 
 
 module Program =
