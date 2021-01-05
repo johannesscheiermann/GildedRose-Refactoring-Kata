@@ -1,56 +1,8 @@
 ﻿namespace GildedRose
 
 open System.Collections.Generic
-open GildedRose.DomainTypes
 open GildedRose.DomainImplementation
-
-type Item =
-    { Name: string
-      SellIn: int
-      Quality: int }
-
-module ItemDto =
-    let toDomain (dto: Item): DomainTypes.Item =
-        if dto.Name.StartsWith "Sulfuras" then
-            DomainTypes.Item.Legendary
-                { Name = dto.Name
-                  SellIn = dto.SellIn
-                  Quality = (LegendaryQuality.createFrom dto.Quality) }
-        else if dto.Name.StartsWith "Aged Brie" then
-            DomainTypes.Item.AgedBrie
-                { Name = dto.Name
-                  SellIn = dto.SellIn
-                  Quality = (Quality.createFrom dto.Quality) }
-        else if dto.Name.StartsWith "Backstage passes" then
-            DomainTypes.Item.BackstagePass
-                { Name = dto.Name
-                  SellIn = dto.SellIn
-                  Quality = (Quality.createFrom dto.Quality) }
-        else
-            DomainTypes.Item.Normal
-                { Name = dto.Name
-                  SellIn = dto.SellIn
-                  Quality = (Quality.createFrom dto.Quality) }
-
-    let fromDomain (item: DomainTypes.Item): Item =
-        match item with
-        | Legendary it ->
-            { Name = it.Name
-              SellIn = it.SellIn
-              Quality = (LegendaryQuality.valueOf it.Quality) }
-        | AgedBrie it ->
-            { Name = it.Name
-              SellIn = it.SellIn
-              Quality = (Quality.valueOf it.Quality) }
-        | BackstagePass it ->
-            { Name = it.Name
-              SellIn = it.SellIn
-              Quality = (Quality.valueOf it.Quality) }
-        | Normal it ->
-            { Name = it.Name
-              SellIn = it.SellIn
-              Quality = (Quality.valueOf it.Quality) }
-
+open GildedRose.Domain_Dtos
 
 type GildedRose(items: IList<Item>) =
     let Items = items
@@ -115,9 +67,11 @@ module Program =
                Quality = 6 })
 
         let app = GildedRose(Items)
+
         for i = 0 to 30 do
             printfn "-------- day %d --------" i
             printfn "name, sellIn, quality"
+
             for j = 0 to Items.Count - 1 do
                 printfn "%s, %d, %d" Items.[j].Name Items.[j].SellIn Items.[j].Quality
 
