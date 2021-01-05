@@ -64,13 +64,13 @@ module Program =
         let Items = new List<TempMixedItemType>()
         Items.Add(Domain (GildedRose.DomainTypes.Item.Normal {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = Quality.createFrom(20)}))
         Items.Add(Legacy {Name = "Aged Brie"; SellIn = 2; Quality = 0})
-        Items.Add(Legacy {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7})
+        Items.Add(Domain (GildedRose.DomainTypes.Item.Normal {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = Quality.createFrom(7)}))
         Items.Add(Legacy {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80})
         Items.Add(Legacy {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80})
-        Items.Add(Legacy {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20})
-        Items.Add(Legacy {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 10; Quality = 49})
-        Items.Add(Legacy {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 5; Quality = 49})
-        Items.Add(Legacy {Name = "Conjured Mana Cake"; SellIn = 3; Quality = 6})
+        Items.Add(Domain (GildedRose.DomainTypes.Item.BackstagePass {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = Quality.createFrom(20)}))
+        Items.Add(Domain (GildedRose.DomainTypes.Item.BackstagePass {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 10; Quality = Quality.createFrom(49)}))
+        Items.Add(Domain (GildedRose.DomainTypes.Item.BackstagePass {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 5; Quality = Quality.createFrom(49)}))
+        Items.Add(Domain (GildedRose.DomainTypes.Item.Normal {Name = "Conjured Mana Cake"; SellIn = 3; Quality = Quality.createFrom(6)}))
 
         let app = new GildedRose(Items)
         for i = 0 to 30 do
