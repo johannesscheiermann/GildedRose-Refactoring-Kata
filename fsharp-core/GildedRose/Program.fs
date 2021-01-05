@@ -63,7 +63,7 @@ module Program =
         printfn "OMGHAI!"
         let Items = new List<TempMixedItemType>()
         Items.Add(Domain (GildedRose.DomainTypes.Item.Normal {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = Quality.createFrom(20)}))
-        Items.Add(Legacy {Name = "Aged Brie"; SellIn = 2; Quality = 0})
+        Items.Add(Domain (GildedRose.DomainTypes.Item.AgedBrie {Name = "Aged Brie"; SellIn = 2; Quality = Quality.createFrom(0)}))
         Items.Add(Domain (GildedRose.DomainTypes.Item.Normal {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = Quality.createFrom(7)}))
         Items.Add(Legacy {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80})
         Items.Add(Legacy {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80})

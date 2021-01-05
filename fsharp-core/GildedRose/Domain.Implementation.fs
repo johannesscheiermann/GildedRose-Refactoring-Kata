@@ -41,8 +41,15 @@ let updateBackstagePassItemQuality (item: BackstagePassItem): BackstagePassItem 
 
     { item with
           Quality =
-              ((item.Quality |> Quality.valueOf)
-               + additionalQual
+              ((item.Quality |> Quality.valueOf) + additionalQual
+               |> Quality.createFrom) }
+
+let updateAgedBrieQuality (item: AgedBrieItem): AgedBrieItem =
+    let additionalQual = if item.SellIn < 0 then 2 else 1
+
+    { item with
+          Quality =
+              ((item.Quality |> Quality.valueOf) + additionalQual
                |> Quality.createFrom) }
 
 let updateQuality: UpdateQuality =
@@ -53,4 +60,5 @@ let updateQuality: UpdateQuality =
             it
             |> updateBackstagePassItemQuality
             |> BackstagePass
+        | AgedBrie it -> it |> updateAgedBrieQuality |> AgedBrie
         | _ -> failwith "not implemented" // TODO
