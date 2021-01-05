@@ -17,7 +17,7 @@ type GildedRose(items: IList<Item>) =
 
 module Program =
     [<EntryPoint>]
-    let main argv =
+    let main _ =
         printfn "OMGHAI!"
         let Items = List<Item>()
 

@@ -19,7 +19,7 @@ let decrementSellIn: DecrementSellIn =
             AgedBrie
                 { it with
                       SellIn = it.SellIn |> decrementSellIn }
-        | Legendary it -> item
+        | Legendary _ -> item
 
 let updateNormalItemQuality (item: NormalItem): NormalItem =
     let qualityLoss = if item.SellIn < 0 then 2 else 1
