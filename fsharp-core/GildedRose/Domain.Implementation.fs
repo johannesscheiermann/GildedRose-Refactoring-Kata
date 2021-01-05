@@ -19,10 +19,7 @@ let decrementSellIn: DecrementSellIn =
             AgedBrie
                 { it with
                       SellIn = it.SellIn |> decrementSellIn }
-        | Legendary it ->
-            Legendary
-                { it with
-                      SellIn = it.SellIn |> decrementSellIn }
+        | Legendary it -> item
 
 let updateNormalItemQuality (item: NormalItem): NormalItem =
     let qualityLoss = if item.SellIn < 0 then 2 else 1
@@ -61,4 +58,4 @@ let updateQuality: UpdateQuality =
             |> updateBackstagePassItemQuality
             |> BackstagePass
         | AgedBrie it -> it |> updateAgedBrieQuality |> AgedBrie
-        | _ -> failwith "not implemented" // TODO
+        | Legendary _ -> item
